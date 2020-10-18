@@ -12,16 +12,64 @@ import '../box-styles.css'
 
 // 🐨 add a style prop to each of them as well so their background color
 // matches what the text says it should be as well as `fontStyle: 'italic'`
-const smallBox = <div>small lightblue box</div>
-const mediumBox = <div>medium pink box</div>
-const largeBox = <div>large orange box</div>
+
+const smallBoxStyles = {backgroundColor: 'lightblue'}
+const mediumBoxStyles = {backgroundColor: 'pink'}
+const largeBoxStyles = {backgroundColor: 'orange'}
+
+// const smallBox = (
+//   <div className="box box--small" style={smallBoxStyles}>
+//     small lightblue box
+//   </div>
+// )
+// const mediumBox = (
+//   <div
+//     className="box box--medium"
+//     style={{backgroundColor: 'pink', fontStyle: 'italic'}}
+//   >
+//     medium pink box
+//   </div>
+// )
+// const largeBox = (
+//   <div
+//     className="box box--large"
+//     style={{backgroundColor: 'orange', fontStyle: 'italic'}}
+//   >
+//     large orange box
+//   </div>
+// )
+
+function Box({size, style, ...otherProps}) {
+  const mapSizeToCn = {
+    small: 'box--small',
+    medium: 'box--medium',
+    large: 'box--large',
+  }
+
+  const className = 'box ' + mapSizeToCn[size]
+
+  return (
+    <div
+      className={className}
+      style={{fontStyle: 'italic', ...style}}
+      {...otherProps}
+    />
+  )
+}
 
 function App() {
   return (
     <div>
-      {smallBox}
-      {mediumBox}
-      {largeBox}
+      <Box size="small" style={smallBoxStyles}>
+        small light-blue box
+      </Box>
+      <Box size="medium" style={mediumBoxStyles}>
+        medium pink box
+      </Box>
+      <Box size="large" style={largeBoxStyles}>
+        large orange box
+      </Box>
+      <Box>Size-less box</Box>
     </div>
   )
 }
