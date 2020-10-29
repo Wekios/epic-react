@@ -6,42 +6,39 @@ import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
 
-function Menu({
+let Menu = ({
   items,
   getMenuProps,
   getItemProps,
   highlightedIndex,
   selectedItem,
-}) {
-  return (
-    <ul {...getMenuProps()}>
-      {items.map((item, index) => (
-        <ListItem
-          key={item.id}
-          getItemProps={getItemProps}
-          item={item}
-          index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
-        >
-          {item.name}
-        </ListItem>
-      ))}
-    </ul>
-  )
-}
-// 🐨 Memoize the Menu here using React.memo
+}) => (
+  <ul {...getMenuProps()}>
+    {items.map((item, index) => (
+      <ListItem
+        key={item.id}
+        getItemProps={getItemProps}
+        item={item}
+        index={index}
+        isSelected={selectedItem?.id === item.id}
+        isHighlighted={highlightedIndex === index}
+      >
+        {item.name}
+      </ListItem>
+    ))}
+  </ul>
+)
 
-function ListItem({
+Menu = React.memo(Menu)
+
+let ListItem = ({
   getItemProps,
   item,
   index,
-  selectedItem,
-  highlightedIndex,
+  isSelected,
+  isHighlighted,
   ...props
-}) {
-  const isSelected = selectedItem?.id === item.id
-  const isHighlighted = highlightedIndex === index
+}) => {
   return (
     <li
       {...getItemProps({
@@ -56,7 +53,7 @@ function ListItem({
     />
   )
 }
-// 🐨 Memoize the ListItem here using React.memo
+ListItem = React.memo(ListItem)
 
 function App() {
   const forceRerender = useForceRerender()
